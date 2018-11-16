@@ -11,46 +11,43 @@ class GameElement {
   }
 }
 
-interface Animatables {
-  //横向向移动速度
-  movepx;
-  //纵向移动速度
-  movepy;
-  //移动频率
-  movesp;
-  // 移动频率映射
-
+class Animatables extends GameElement {
+  //敌机横向移动速度
+  movepx = 6;
+  //敌机纵向移动速度
+  movepy = 4;
+  //敌机移动频率
+  public movesp = 75;
 }
-interface Movable {
+class Movable extends GameElement {
   //是否移动中
-  isMove;
+  isMove = false;
   //移动的ID
-  moveId;
-
-  //横向向移动速度
-  movepx;
-  //纵向移动速度
-  movepy;
-  //移动频率
-  movesp;
+  moveId = null;
 
   //游戏背景Dom
-  gamePanel;
+  gamePanel = null;
   //游戏背景宽度
-  gameWidth;
+  gameWidth = 0;
   //游戏背景高度
-  gameHeight;
+  gameHeight = 0;
+  //飞机移动速度
+  movepx = 10;
+  movepy = 0;
 
+  //飞机移动频率
+  movesp = 30;
   //方向键值对应
-  keyCodeAndDirection;
-  //   37: "left",
-  //   38: "up",
-  //   39: "right",
-  //   40: "down",
-  //   65: "left",
-  //   87: "up",
-  //   68: "right",
-  //   83: "down"
+  keyCodeAndDirection = {
+    37: "left",
+    38: "up",
+    39: "right",
+    40: "down",
+    65: "left",
+    87: "up",
+    68: "right",
+    83: "down"
+  };
 }
 interface Fireable {
   //是否发弹中
@@ -63,19 +60,7 @@ interface Fireable {
   maxBullet;
 }
 
-class Enemy extends GameElement implements Animatables {
-//   //敌机dom元素
-//   dom = null;
-//   //是否
-//   isLive = true;
-
-  //敌机横向移动速度
-  movepx = 6;
-  //敌机纵向移动速度
-  movepy = 4;
-  //敌机移动频率
-  public movesp = 75;
-  //敌机移动频率映射
+class Enemy extends Animatables {
   movespMap = {
     1: 75,
     2: 65,
@@ -172,15 +157,11 @@ class Enemy extends GameElement implements Animatables {
   gameover() {}
 }
 
-class Bullet extends GameElement implements Animatables {
-  
+class Bullet extends Animatables {
   //子弹移动速度
   movepx = 8;
-  movepy = 0;
-
   //子弹移动频率
   movesp = 10;
-
   constructor(className = "bullet") {
     super(className);
   }
@@ -227,47 +208,19 @@ class Bullet extends GameElement implements Animatables {
   onend() {}
 }
 
-class Flyer extends GameElement implements Movable, Fireable {
-  //是否移动中
-  isMove = false;
-  //移动的ID
-  moveId = null;
+class Flyer extends Movable implements Fireable {
   //是否发弹中
   isSend = false;
   //目前已经发了多少颗弹(存在屏幕显示)
   nowBullet = 0;
-
-  //游戏背景Dom
-  gamePanel = null;
-  //游戏背景宽度
-  gameWidth = 0;
-  //游戏背景高度
-  gameHeight = 0;
-  //飞机移动速度
-  movepx = 10;
-  movepy = 0;
-
-  //飞机移动频率
-  movesp = 30;
   //飞机子弹级别
   bulletLevel = 1;
   //最大发弹数(存在屏幕显示)
   maxBullet = 12;
-  //方向键值对应
-  keyCodeAndDirection = {
-    37: "left",
-    38: "up",
-    39: "right",
-    40: "down",
-    65: "left",
-    87: "up",
-    68: "right",
-    83: "down"
-  };
 
-  constructor(className='flyer') {
-	super(className);
-  } 
+  constructor(className = "flyer") {
+    super(className);
+  }
 
   //设置位置
   setPosition(gamePanel, width, height) {

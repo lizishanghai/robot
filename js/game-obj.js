@@ -24,22 +24,59 @@ var GameElement = /** @class */ (function () {
     };
     return GameElement;
 }());
-var Enemy = /** @class */ (function (_super) {
-    __extends(Enemy, _super);
-    function Enemy(className) {
-        if (className === void 0) { className = "enemy"; }
-        var _this_1 = _super.call(this, className) || this;
-        //   //敌机dom元素
-        //   dom = null;
-        //   //是否
-        //   isLive = true;
+var Animatables = /** @class */ (function (_super) {
+    __extends(Animatables, _super);
+    function Animatables() {
+        var _this_1 = _super !== null && _super.apply(this, arguments) || this;
         //敌机横向移动速度
         _this_1.movepx = 6;
         //敌机纵向移动速度
         _this_1.movepy = 4;
         //敌机移动频率
         _this_1.movesp = 75;
-        //敌机移动频率映射
+        return _this_1;
+    }
+    return Animatables;
+}(GameElement));
+var Movable = /** @class */ (function (_super) {
+    __extends(Movable, _super);
+    function Movable() {
+        var _this_1 = _super !== null && _super.apply(this, arguments) || this;
+        //是否移动中
+        _this_1.isMove = false;
+        //移动的ID
+        _this_1.moveId = null;
+        //游戏背景Dom
+        _this_1.gamePanel = null;
+        //游戏背景宽度
+        _this_1.gameWidth = 0;
+        //游戏背景高度
+        _this_1.gameHeight = 0;
+        //飞机移动速度
+        _this_1.movepx = 10;
+        _this_1.movepy = 0;
+        //飞机移动频率
+        _this_1.movesp = 30;
+        //方向键值对应
+        _this_1.keyCodeAndDirection = {
+            37: "left",
+            38: "up",
+            39: "right",
+            40: "down",
+            65: "left",
+            87: "up",
+            68: "right",
+            83: "down"
+        };
+        return _this_1;
+    }
+    return Movable;
+}(GameElement));
+var Enemy = /** @class */ (function (_super) {
+    __extends(Enemy, _super);
+    function Enemy(className) {
+        if (className === void 0) { className = "enemy"; }
+        var _this_1 = _super.call(this, className) || this;
         _this_1.movespMap = {
             1: 75,
             2: 65,
@@ -128,7 +165,7 @@ var Enemy = /** @class */ (function (_super) {
     //游戏结束
     Enemy.prototype.gameover = function () { };
     return Enemy;
-}(GameElement));
+}(Animatables));
 var Bullet = /** @class */ (function (_super) {
     __extends(Bullet, _super);
     function Bullet(className) {
@@ -136,7 +173,6 @@ var Bullet = /** @class */ (function (_super) {
         var _this_1 = _super.call(this, className) || this;
         //子弹移动速度
         _this_1.movepx = 8;
-        _this_1.movepy = 0;
         //子弹移动频率
         _this_1.movesp = 10;
         return _this_1;
@@ -183,46 +219,20 @@ var Bullet = /** @class */ (function (_super) {
     //外部接口，子弹结束事件
     Bullet.prototype.onend = function () { };
     return Bullet;
-}(GameElement));
+}(Animatables));
 var Flyer = /** @class */ (function (_super) {
     __extends(Flyer, _super);
     function Flyer(className) {
-        if (className === void 0) { className = 'flyer'; }
+        if (className === void 0) { className = "flyer"; }
         var _this_1 = _super.call(this, className) || this;
-        //是否移动中
-        _this_1.isMove = false;
-        //移动的ID
-        _this_1.moveId = null;
         //是否发弹中
         _this_1.isSend = false;
         //目前已经发了多少颗弹(存在屏幕显示)
         _this_1.nowBullet = 0;
-        //游戏背景Dom
-        _this_1.gamePanel = null;
-        //游戏背景宽度
-        _this_1.gameWidth = 0;
-        //游戏背景高度
-        _this_1.gameHeight = 0;
-        //飞机移动速度
-        _this_1.movepx = 10;
-        _this_1.movepy = 0;
-        //飞机移动频率
-        _this_1.movesp = 30;
         //飞机子弹级别
         _this_1.bulletLevel = 1;
         //最大发弹数(存在屏幕显示)
         _this_1.maxBullet = 12;
-        //方向键值对应
-        _this_1.keyCodeAndDirection = {
-            37: "left",
-            38: "up",
-            39: "right",
-            40: "down",
-            65: "left",
-            87: "up",
-            68: "right",
-            83: "down"
-        };
         return _this_1;
     }
     //设置位置
@@ -415,22 +425,7 @@ var Flyer = /** @class */ (function (_super) {
     //改分数外部接口
     Flyer.prototype.onChangeScore = function () { };
     return Flyer;
-}(GameElement));
-// import {Flyer} from './flyer';
-// import {Enemy} from './enemy';
-/**
- * @author floyd
- */
-//扩展数组方法，删除特定的值
-// Array.prototype.remove = function(obj){
-// 	for(var i=0,l=this.length;i < l;i++){
-// 		if(this[i] == obj){
-// 			this.splice(i,1);
-// 			return this;
-// 		}
-// 	}
-// 	throw "The Array has no this Obj";
-// }
+}(Movable));
 //游戏控制类
 var Game = /** @class */ (function () {
     function Game() {
