@@ -2,12 +2,12 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>打飞机</title>
+    <title>Robot Beat</title>
     <style>
       #gamePanel {
         width: 800px;
         height: 500px;
-        background: Black;
+        background:#0033cc;
         position: absolute;
         left: 100px;
         top: 100px;
@@ -56,7 +56,7 @@
       #startBtn {
         border-width: 20px;
         border-style: solid;
-        border-color: Black Black Black Green;
+        border-color: #0033cc #0033cc #0033cc Green;
         position: absolute;
         left: 380px;
         top: 240px;
@@ -80,7 +80,7 @@
 
   <body>
     <div id="gamePanel" tabindex="0">
-      <div class="score">分数：<span id="score">0</span></div>
+      <div class="score">Score：<span id="score">0</span></div>
       <div id="startBtn" onclick="Start()"></div>
     </div>
 
